@@ -1,4 +1,4 @@
-aiohttp==3.13.3
+aiohttp==3.13.4
 gpt_researcher==0.13.3
 langchain_openai==0.3.18
 pandas==2.2.3
