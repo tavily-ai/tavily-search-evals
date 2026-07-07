@@ -10,7 +10,7 @@ from typing import Dict, Any, List, Optional
 from evaluators.correctness_evaluator import CorrectnessConfig
 
 
-from handlers import TavilyHandler, ExaHandler, GPTRHandler, PerplexityHandler, SerperHandler, BraveHandler, PerplexitySearchHandler
+from handlers import TavilyHandler, ExaHandler, GPTRHandler, PerplexityHandler, SerperHandler, BraveHandler, PerplexitySearchHandler, YoucomHandler
 from evaluators import CorrectnessEvaluator
 from utils import PostProcessor, save_summary, load_csv_data, load_document_relevance_eval_data, prepare_examples, get_output_dir, save_result, get_quotient_ai_client, EvaluationType, copy_config_to_results
 
@@ -58,6 +58,7 @@ async def get_search_handlers(search_provider_params: Dict[str, Dict[str, Any]],
         "perplexity_search": PerplexitySearchHandler,
         "serper": SerperHandler,
         "brave": BraveHandler,
+        "youcom": YoucomHandler,
     }
     
     return [
