@@ -10,7 +10,7 @@ from utils.utils import EvaluationType
 
 logger = logging.getLogger(__name__)
 
-YOUCOM_API_URL = "https://api.you.com/v1/agents/search"
+YOUCOM_API_URL = "https://api.ydc-index.io/v1/search"
 
 
 class YoucomHandler(ProviderHandler):
@@ -108,7 +108,7 @@ class YoucomHandler(ProviderHandler):
         token_counts = []
 
         response_data = search_response["search_response"]
-        if "results" in response_data:
+        if "results" in response_data and "web" in response_data.get("results", {}):
             search_results, token_counts = self._format_search_response(response_data, evaluation_type)
 
         token_count, token_avg = get_token_stats(token_counts)
@@ -128,21 +128,21 @@ class YoucomHandler(ProviderHandler):
         search_results = []
         token_counts = []
 
-        # Extract results from You.com's `results` array.
-        # MINIMAL: only `title`/`url`/`snippet` fields are consumed; upgrade path
-        # could add `description`/`content` if You.com exposes richer payloads later.
+        # Extract results from You.com's `results.web` array.
+        # MINIMAL: only `title`/`url`/`snippets` fields are consumed; upgrade
+        # path could add `description`/`thumbnail_url` if richer payloads help.
         if evaluation_type == EvaluationType.SIMPLEQA:
-            for result in response_data["results"]:
+            for result in response_data["results"]["web"]:
                 url = result.get("url", "")
                 title = result.get("title", "")
-                snippet = result.get("snippet", "")
-                content = f"{title}\n{snippet}" if title and snippet else title or snippet
+                snippets = result.get("snippets", [])
+                content = f"{title}\n{' '.join(snippets)}" if title and snippets else title or " ".join(snippets)
                 if url and content:
                     token_counts.append(calculate_token_consumption(content, self.token_model))
                     search_results.append((url, content))
             formatted_results = self._format_search_results_for_prompt(search_results)
         elif evaluation_type == EvaluationType.DOCUMENT_RELEVANCE:
-            web_results = response_data["results"]
+            web_results = response_data["results"]["web"]
             formatted_results = [str(web_result) for web_result in web_results]
             token_counts = [calculate_token_consumption(document, self.token_model) for document in formatted_results]
 

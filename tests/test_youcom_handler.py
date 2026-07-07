@@ -29,19 +29,24 @@ class YoucomHandlerPostProcessTest(unittest.IsolatedAsyncioTestCase):
 
     def _fake_response(self):
         return {
-            "results": [
-                {
-                    "title": "You.com",
-                    "url": "https://you.com",
-                    "snippet": "You.com is a search engine.",
-                },
-                {
-                    "title": "Nous Research",
-                    "url": "https://nousresearch.com",
-                    "snippet": "Nous Research builds AI agents.",
-                },
-            ],
-            "images": [],
+            "results": {
+                "web": [
+                    {
+                        "title": "You.com",
+                        "url": "https://you.com",
+                        "description": "You.com is a search engine.",
+                        "snippets": ["You.com is a search engine."],
+                    },
+                    {
+                        "title": "Nous Research",
+                        "url": "https://nousresearch.com",
+                        "description": "Nous Research builds AI agents.",
+                        "snippets": ["Nous Research builds AI agents."],
+                    },
+                ],
+                "news": [],
+            },
+            "metadata": {"search_uuid": "test-uuid"},
         }
 
     async def test_post_process_extracts_url_and_content(self):
@@ -59,7 +64,7 @@ class YoucomHandlerPostProcessTest(unittest.IsolatedAsyncioTestCase):
 
     async def test_post_process_handles_empty_response(self):
         handler = YoucomHandler()
-        search_result = {"search_response": {"results": [], "images": []}}
+        search_result = {"search_response": {"results": {"web": [], "news": []}, "metadata": {}}}
         formatted, token_count, token_avg = await handler.post_process(
             search_result, evaluation_type=EvaluationType.SIMPLEQA
         )
