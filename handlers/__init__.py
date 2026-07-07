@@ -5,5 +5,6 @@ from .perplexity_handler import PerplexityHandler
 from .perplexity_search_handler import PerplexitySearchHandler
 from .serper_handler import SerperHandler
 from .brave_handler import BraveHandler
+from .youcom_handler import YoucomHandler
 
-all = [TavilyHandler, ExaHandler, GPTRHandler, PerplexityHandler, SerperHandler, BraveHandler, PerplexitySearchHandler]
+all = [TavilyHandler, ExaHandler, GPTRHandler, PerplexityHandler, SerperHandler, BraveHandler, PerplexitySearchHandler, YoucomHandler]

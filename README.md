@@ -16,7 +16,7 @@ This repository provides evaluation frameworks for benchmarking web search APIs,
 
 ### **Features**
 - Comparative evaluation of multiple search providers
-- Out-of-the-box support for Tavily, Exa, Brave, Google (SERP via Serper), Perplexity Search, Perplexity, and GPTR
+- Out-of-the-box support for Tavily, Exa, Brave, Google (SERP via Serper), Perplexity Search, Perplexity, GPTR, and You.com
 - Easy integration of additional providers (see [this section](#adding-a-new-search-provider-to-the-evaluation))
 - Customizable configuration for each provider
 - Parallelized, independent evaluation pipelines
@@ -72,6 +72,7 @@ NOTE: The `config.json` file contains the search parameters we used to evaluate 
     PERPLEXITY_API_KEY=XXX
     SERPER_API_KEY=XXX
     BRAVE_API_KEY=XXX
+    YDC_API_KEY=XXX
     ```
 
 4. **Run**:
@@ -170,6 +171,7 @@ The current supported search providers are:
 - `exa`
 - `serper`
 - `brave`
+- `youcom`
 
 
 You can extend the system to evaluate additional search providers by following these steps:
